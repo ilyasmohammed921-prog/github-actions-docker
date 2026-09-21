@@ -1,11 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Football Arena</title>
+    <title>RideGo - Taxi Service</title>
 
     <style>
         * {
@@ -16,20 +14,20 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: #071a12;
-            color: white;
+            background: #f5f7fa;
+            color: #17202a;
         }
 
         /* NAVBAR */
 
         nav {
-            height: 70px;
+            height: 72px;
+            background: #111827;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             padding: 0 8%;
-            background: #04110b;
-            border-bottom: 2px solid #16a34a;
+            color: white;
         }
 
         .logo {
@@ -38,135 +36,567 @@
         }
 
         .logo span {
-            color: #22c55e;
+            color: #facc15;
         }
 
         nav a {
-            color: #d1fae5;
+            color: #e5e7eb;
             text-decoration: none;
             margin-left: 25px;
-            font-weight: bold;
+            font-size: 15px;
         }
 
         nav a:hover {
-            color: #22c55e;
+            color: #facc15;
         }
 
         /* HERO */
 
         .hero {
             min-height: 600px;
+            padding: 70px 8%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 60px 20px;
+            justify-content: space-between;
+            gap: 50px;
             background:
-                radial-gradient(circle at center, #166534 0%, #071a12 65%);
+                linear-gradient(135deg, #111827 50%, #facc15 50%);
         }
 
         .hero-content {
-            max-width: 850px;
+            max-width: 600px;
         }
 
-        .football {
-            font-size: 100px;
+        .badge {
+            display: inline-block;
+            background: #facc15;
+            color: #111827;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
             margin-bottom: 20px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
         }
 
         .hero h1 {
+            color: white;
             font-size: 58px;
-            margin-bottom: 15px;
+            line-height: 1.1;
+            margin-bottom: 20px;
         }
 
         .hero h1 span {
-            color: #22c55e;
+            color: #facc15;
         }
 
         .hero p {
-            color: #bbf7d0;
-            font-size: 19px;
+            color: #d1d5db;
+            font-size: 18px;
             line-height: 1.6;
+            margin-bottom: 30px;
         }
 
         .button {
             display: inline-block;
-            margin-top: 30px;
-            padding: 14px 32px;
-            background: #22c55e;
-            color: #04110b;
-            text-decoration: none;
+            background: #facc15;
+            color: #111827;
+            padding: 15px 30px;
             border-radius: 30px;
+            text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
         }
 
         .button:hover {
-            background: #86efac;
+            background: white;
             transform: translateY(-3px);
         }
 
-        /* SCOREBOARD */
+        /* TAXI */
 
-        .score-section {
+        .taxi-container {
+            width: 420px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .taxi {
+            position: relative;
+            width: 330px;
+            height: 130px;
+            background: #facc15;
+            border-radius: 55px 70px 25px 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .taxi::before {
+            content: "";
+            position: absolute;
+            width: 210px;
+            height: 80px;
+            background: #111827;
+            top: -55px;
+            left: 60px;
+            border-radius: 90px 90px 10px 10px;
+        }
+
+        .window {
+            position: absolute;
+            width: 85px;
+            height: 48px;
+            background: #60a5fa;
+            top: -45px;
+            border-radius: 45px 45px 5px 5px;
+            z-index: 2;
+        }
+
+        .window.left {
+            left: 72px;
+        }
+
+        .window.right {
+            right: 72px;
+        }
+
+        .taxi-sign {
+            position: absolute;
+            background: white;
+            color: #111827;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 5px;
+            top: -75px;
+            left: 135px;
+            z-index: 4;
+        }
+
+        .wheel {
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            background: #111827;
+            border: 10px solid #374151;
+            border-radius: 50%;
+            bottom: -35px;
+        }
+
+        .wheel.left {
+            left: 45px;
+        }
+
+        .wheel.right {
+            right: 45px;
+        }
+
+        .wheel::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #9ca3af;
+            border-radius: 50%;
+            top: 15px;
+            left: 15px;
+        }
+
+        .headlight {
+            position: absolute;
+            width: 25px;
+            height: 20px;
+            background: white;
+            right: -8px;
+            top: 45px;
+            border-radius: 5px;
+        }
+
+        /* BOOKING */
+
+        .booking {
             padding: 70px 8%;
-            background: #f0fdf4;
-            color: #052e16;
+            background: white;
         }
 
         .section-title {
             text-align: center;
-            font-size: 35px;
+            font-size: 36px;
             margin-bottom: 40px;
         }
 
-        .scoreboard {
-            max-width: 800px;
+        .booking-box {
+            max-width: 900px;
             margin: auto;
-            background: white;
-            border-radius: 18px;
+            background: #111827;
             padding: 35px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        .match {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .input-box {
+            background: #1f2937;
+            padding: 18px;
+            border-radius: 10px;
+            color: #9ca3af;
+        }
+
+        .input-box strong {
+            display: block;
+            color: white;
+            margin-top: 6px;
+        }
+
+        .book-button {
+            width: 100%;
+            border: none;
+            margin-top: 25px;
+            padding: 16px;
+            background: #facc15;
+            color: #111827;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .book-button:hover {
+            background: #fde68a;
+        }
+
+        /* FEATURES */
+
+        .features {
+            padding: 70px 8%;
+            background: #f5f7fa;
+        }
+
+        .cards {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 21px;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* PRICE */
+
+        .price-section {
+            padding: 70px 8%;
+            background: #111827;
+            color: white;
             text-align: center;
         }
 
-        .team {
-            width: 180px;
+        .price-section .section-title {
+            color: white;
         }
 
-        .team-icon {
-            font-size: 55px;
-            margin-bottom: 10px;
+        .price-card {
+            max-width: 450px;
+            margin: auto;
+            background: #1f2937;
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid #374151;
         }
 
-        .team h3 {
-            font-size: 22px;
-        }
-
-        .score {
+        .price {
             font-size: 50px;
             font-weight: bold;
-            color: #16a34a;
+            color: #facc15;
+            margin: 15px 0;
         }
 
-        .vs {
-            color: #64748b;
-            font-weight: bold;
-```
+        .price-card p {
+            color: #d1d5db;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #030712;
+            color: #9ca3af;
+            text-align: center;
+            padding: 25px;
+        }
+
+        footer span {
+            color: #facc15;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                background: #111827;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .taxi-container {
+                width: 100%;
+                transform: scale(0.8);
+            }
+
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+        <div class="logo">
+            🚕 <span>Ride</span>Go
+        </div>
+
+        <div>
+            <a href="#home">Home</a>
+            <a href="#booking">Book Ride</a>
+            <a href="#features">Services</a>
+            <a href="#price">Pricing</a>
+        </div>
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                🚕 Fast & Reliable Rides
+            </div>
+
+            <h1>
+                Your Ride.<br>
+                <span>Your Journey.</span>
+            </h1>
+
+            <p>
+                Book a comfortable taxi in seconds.
+                Safe rides, professional drivers and
+                affordable prices whenever you need them.
+            </p>
+
+            <a href="#booking" class="button">
+                Book a Ride →
+            </a>
+
+        </div>
+
+
+        <!-- CSS TAXI -->
+
+        <div class="taxi-container">
+
+            <div class="taxi">
+
+                <div class="taxi-sign">
+                    TAXI
+                </div>
+
+                <div class="window left"></div>
+                <div class="window right"></div>
+
+                <div class="headlight"></div>
+
+                <div class="wheel left"></div>
+                <div class="wheel right"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOOKING -->
+
+    <section class="booking" id="booking">
+
+        <h2 class="section-title">
+            Book Your Ride
+        </h2>
+
+        <div class="booking-box">
+
+            <div class="booking-grid">
+
+                <div class="input-box">
+                    📍 Pickup Location
+                    <strong>Your current location</strong>
+                </div>
+
+                <div class="input-box">
+                    🏁 Drop-off Location
+                    <strong>Where are you going?</strong>
+                </div>
+
+                <div class="input-box">
+                    📅 Date
+                    <strong>Today</strong>
+                </div>
+
+                <div class="input-box">
+                    🕐 Pickup Time
+                    <strong>Now</strong>
+                </div>
+
+            </div>
+
+            <button class="book-button">
+                🚕 FIND A TAXI
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="features" id="features">
+
+        <h2 class="section-title">
+            Why RideGo?
+        </h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">⚡</div>
+                <h3>Quick Pickup</h3>
+                <p>
+                    Get a taxi quickly and spend less
+                    time waiting on the road.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🛡️</div>
+                <h3>Safe Rides</h3>
+                <p>
+                    Travel comfortably with trusted
+                    and professional drivers.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">💳</div>
+                <h3>Easy Payment</h3>
+                <p>
+                    Simple and convenient payment
+                    options for every ride.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRICE -->
+
+    <section class="price-section" id="price">
+
+        <h2 class="section-title">
+            Simple Pricing
+        </h2>
+
+        <div class="price-card">
+
+            <div>Starting From</div>
+
+            <div class="price">
+                ₹99
+            </div>
+
+            <p>
+                Affordable rides with no complicated
+                pricing.
+            </p>
+
+            <br>
+
+            <a href="#booking" class="button">
+                Book Now
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            🚕 <span>RideGo</span> — Your Journey Starts Here
+        </p>
+
+        <p style="margin-top: 8px;">
+            © 2026 RideGo Taxi Services
+        </p>
+
+    </footer>
+
+</body>
+</html>
