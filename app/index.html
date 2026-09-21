@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Docker CI/CD</title>
+    <title>Football Arena</title>
 
     <style>
         * {
@@ -15,481 +16,157 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #0ea5e9);
+            background: #071a12;
             color: white;
-            min-height: 100vh;
         }
 
         /* NAVBAR */
 
         nav {
+            height: 70px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
-            background: rgba(15, 23, 42, 0.9);
+            padding: 0 8%;
+            background: #04110b;
+            border-bottom: 2px solid #16a34a;
         }
 
         .logo {
-            font-size: 28px;
+            font-size: 25px;
             font-weight: bold;
         }
 
         .logo span {
-            color: #38bdf8;
+            color: #22c55e;
         }
 
         nav a {
-            color: white;
+            color: #d1fae5;
             text-decoration: none;
             margin-left: 25px;
+            font-weight: bold;
         }
 
         nav a:hover {
-            color: #38bdf8;
+            color: #22c55e;
         }
 
         /* HERO */
 
         .hero {
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 70px 20px 40px;
+            padding: 60px 20px;
+            background:
+                radial-gradient(circle at center, #166534 0%, #071a12 65%);
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .football {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
         }
 
         .hero h1 {
-            font-size: 55px;
+            font-size: 58px;
             margin-bottom: 15px;
         }
 
         .hero h1 span {
-            color: #38bdf8;
+            color: #22c55e;
         }
 
         .hero p {
+            color: #bbf7d0;
             font-size: 19px;
-            color: #dbeafe;
-            max-width: 700px;
-            margin: auto;
             line-height: 1.6;
         }
 
-        /* DOCKER WHALE */
-
-        .whale-container {
-            margin: 50px auto;
-            width: 360px;
-            position: relative;
-        }
-
-        .whale {
-            position: relative;
-            height: 170px;
-        }
-
-        .whale-body {
-            position: absolute;
-            left: 45px;
-            bottom: 30px;
-            width: 270px;
-            height: 100px;
-            background: #38bdf8;
-            border-radius: 50px 70px 25px 25px;
-        }
-
-        .whale-body::after {
-            content: "";
-            position: absolute;
-            right: -45px;
-            top: 25px;
-            border-left: 55px solid #38bdf8;
-            border-top: 25px solid transparent;
-            border-bottom: 25px solid transparent;
-        }
-
-        .stack {
-            position: absolute;
-            left: 80px;
-            bottom: 110px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .container-box {
-            width: 48px;
-            height: 35px;
-            background: white;
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .container-box::before {
-            content: "";
-            position: absolute;
-            left: 7px;
-            right: 7px;
-            top: 9px;
-            height: 4px;
-            background: #0ea5e9;
-            box-shadow:
-                0 8px #0ea5e9,
-                0 16px #0ea5e9;
-        }
-
-        .stack-two {
-            position: absolute;
-            left: 135px;
-            bottom: 145px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .eye {
-            position: absolute;
-            right: 45px;
-            top: 32px;
-            width: 10px;
-            height: 10px;
-            background: #0f172a;
-            border-radius: 50%;
-        }
-
-        .tail {
-            position: absolute;
-            left: 20px;
-            bottom: 65px;
-            width: 45px;
-            height: 45px;
-            border-left: 15px solid #38bdf8;
-            border-top: 15px solid #38bdf8;
-            transform: rotate(-45deg);
-        }
-
-        /* BUTTON */
-
-        .btn {
+        .button {
             display: inline-block;
             margin-top: 30px;
-            padding: 14px 30px;
-            background: #38bdf8;
-            color: #0f172a;
-            font-weight: bold;
-            border-radius: 30px;
+            padding: 14px 32px;
+            background: #22c55e;
+            color: #04110b;
             text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
             transition: 0.3s;
         }
 
-        .btn:hover {
-            background: white;
+        .button:hover {
+            background: #86efac;
             transform: translateY(-3px);
         }
 
-        /* CARDS */
+        /* SCOREBOARD */
 
-        .section {
-            padding: 60px 8%;
-            background: #f8fafc;
-            color: #0f172a;
+        .score-section {
+            padding: 70px 8%;
+            background: #f0fdf4;
+            color: #052e16;
         }
 
-        .section h2 {
+        .section-title {
             text-align: center;
             font-size: 35px;
             margin-bottom: 40px;
         }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            max-width: 1100px;
+        .scoreboard {
+            max-width: 800px;
             margin: auto;
-        }
-
-        .card {
-            padding: 30px;
             background: white;
-            border-radius: 15px;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .match {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
+        .team {
+            width: 180px;
         }
 
-        .icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .card h3 {
+        .team-icon {
+            font-size: 55px;
             margin-bottom: 10px;
         }
 
-        .card p {
+        .team h3 {
+            font-size: 22px;
+        }
+
+        .score {
+            font-size: 50px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .vs {
             color: #64748b;
-            line-height: 1.5;
-        }
-
-        /* PIPELINE */
-
-        .pipeline {
-            padding: 70px 8%;
-            background: #e0f2fe;
-            color: #0f172a;
-        }
-
-        .pipeline h2 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 35px;
-        }
-
-        .flow {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .step {
-            background: white;
-            padding: 20px 25px;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 150px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .step strong {
-            display: block;
-            color: #0284c7;
-            margin-bottom: 5px;
-        }
-
-        .arrow {
-            font-size: 30px;
-            color: #0284c7;
-        }
-
-        /* FOOTER */
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            background: #020617;
-            color: #94a3b8;
-        }
-
-        footer span {
-            color: #38bdf8;
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 600px) {
-
-            .hero h1 {
-                font-size: 38px;
-            }
-
-            nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav a {
-                margin: 0 8px;
-            }
-
-            .whale-container {
-                transform: scale(0.85);
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- NAVBAR -->
-
-    <nav>
-        <div class="logo">
-            🐳 <span>Docker</span> Demo
-        </div>
-
-        <div>
-            <a href="#home">Home</a>
-            <a href="#features">Features</a>
-            <a href="#pipeline">Pipeline</a>
-        </div>
-    </nav>
-
-
-    <!-- HERO -->
-
-    <section class="hero" id="home">
-
-        <h1>
-            Build. Ship. <span>Run.</span>
-        </h1>
-
-        <p>
-            A simple Docker application demonstrating containerization
-            and automated CI/CD deployment.
-        </p>
-
-
-        <!-- CSS DOCKER WHALE -->
-
-        <div class="whale-container">
-
-            <div class="whale">
-
-                <div class="stack">
-                    <div class="container-box"></div>
-                    <div class="container-box"></div>
-                    <div class="container-box"></div>
-                </div>
-
-                <div class="stack-two">
-                    <div class="container-box"></div>
-                    <div class="container-box"></div>
-                </div>
-
-                <div class="tail"></div>
-
-                <div class="whale-body">
-                    <div class="eye"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <a href="#pipeline" class="btn">
-            View CI/CD Pipeline
-        </a>
-
-    </section>
-
-
-    <!-- FEATURES -->
-
-    <section class="section" id="features">
-
-        <h2>Docker Features</h2>
-
-        <div class="cards">
-
-            <div class="card">
-                <div class="icon">📦</div>
-                <h3>Containers</h3>
-                <p>
-                    Package applications with everything they need
-                    to run consistently.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="icon">⚡</div>
-                <h3>Fast Deployment</h3>
-                <p>
-                    Build and deploy applications quickly using
-                    Docker images.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="icon">🔄</div>
-                <h3>CI/CD</h3>
-                <p>
-                    Automatically build, push and deploy every
-                    time code changes.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="icon">☁️</div>
-                <h3>Cloud Ready</h3>
-                <p>
-                    Run containers on cloud infrastructure such
-                    as AWS EC2.
-                </p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- PIPELINE -->
-
-    <section class="pipeline" id="pipeline">
-
-        <h2>Automated CI/CD Pipeline</h2>
-
-        <div class="flow">
-
-            <div class="step">
-                <strong>01</strong>
-                GitHub
-                <br>
-                Push Code
-            </div>
-
-            <div class="arrow">→</div>
-
-            <div class="step">
-                <strong>02</strong>
-                GitHub Actions
-                <br>
-                Build
-            </div>
-
-            <div class="arrow">→</div>
-
-            <div class="step">
-                <strong>03</strong>
-                Docker Hub
-                <br>
-                Push Image
-            </div>
-
-            <div class="arrow">→</div>
-
-            <div class="step">
-                <strong>04</strong>
-                AWS EC2
-                <br>
-                Deploy
-            </div>
-
-            <div class="arrow">→</div>
-
-            <div class="step">
-                <strong>05</strong>
-                Docker
-                <br>
-                Run Container
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- FOOTER -->
-
-    <footer>
-        <p>
-            Built with <span>Docker</span> •
-            Automated with <span>GitHub Actions</span> •
-            Deployed on <span>AWS EC2</span>
-        </p>
-    </footer>
-
-</body>
-</html>
+            font-weight: bold;
+```
