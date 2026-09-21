@@ -7,17 +7,11 @@ on:
       - main
 
 jobs:
-
-  # =========================
-  # CI
-  # =========================
-
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -29,18 +23,11 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest .
 
       - name: Push Docker Image
         run: |
-          docker push \
-            ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
-
-
-  # =========================
-  # CD
-  # =========================
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
 
   deploy-to-ec2:
     name: Deploy to EC2
@@ -48,7 +35,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@v1.2.2
         with:
@@ -57,26 +43,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-
             echo "Starting deployment..."
 
-            echo "Pulling latest Docker image..."
-
-            sudo docker pull \
-              ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
-
-
-            echo "Stopping old container..."
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
 
             sudo docker stop github-actions-docker || true
 
-
-            echo "Removing old container..."
-
             sudo docker rm github-actions-docker || true
-
-
-            echo "Starting new container..."
 
             sudo docker run -d \
               --name github-actions-docker \
@@ -84,15 +57,9 @@ jobs:
               --restart unless-stopped \
               ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
 
-
-            echo "Cleaning unused images..."
-
             sudo docker image prune -f
 
-
-            echo "Deployment successful!"
-
-            echo "Running container:"
+            echo "Deployment completed!"
 
             sudo docker ps
 ```
