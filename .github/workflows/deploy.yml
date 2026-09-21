@@ -1,0 +1,87 @@
+```yaml
+name: CI-CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  # ==========================
+  # CI: BUILD AND PUSH
+  # ==========================
+
+  build:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PWD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest .
+
+      - name: Push Docker Image
+        run: |
+          docker push \
+            ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
+
+
+  # ==========================
+  # CD: DEPLOY TO EC2
+  # ==========================
+
+  deploy:
+    name: Deploy to EC2
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+
+            echo "Starting deployment..."
+
+            # Pull latest image
+            sudo docker pull \
+              ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
+
+            # Stop old container
+            sudo docker stop github-actions-docker || true
+
+            # Remove old container
+            sudo docker rm github-actions-docker || true
+
+            # Start new container
+            sudo docker run -d \
+              --name github-actions-docker \
+              -p 80:80 \
+              --restart unless-stopped \
+              ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-docker:latest
+
+            # Remove unused images
+            sudo docker image prune -f
+
+            echo "Deployment completed!"
+
+            # Verify container
+            sudo docker ps
+```
